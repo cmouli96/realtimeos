@@ -1,4 +1,5 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
 var formidable = require('formidable');
 var fileUpload=require('express-fileupload');
@@ -8,7 +9,8 @@ var multer=require('multer');
 router.use(fileUpload());
 var fs=require('fs');
 var Binary = require('mongodb').Binary;
-
+var gridfs=require('gridfs-stream');
+gridfs.mongo = mongoose.mongo;
 // var multer=require("multer");
 
 // var storage=multer.diskStorage({
@@ -35,8 +37,25 @@ var Binary = require('mongodb').Binary;
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+
 });
 /*learning stage*/
+router.get('/upload', function(req, res){
+  var db = req.db;
+  // console.log(db);
+  var collection = db.get('usercollection');
+  // console.log(collection);
+  gfs =gridfs(db);
+  var filename = req.query.filename;
+  console.log(filename);
+  
+      var writestream = gfs.createWriteStream({ filename: filename });
+      console.log(writestream);
+      fs.createReadStream(__dirname + "/uploads/" + filename).pipe(writestream);
+      writestream.on('close', (file) => {
+          res.send('Stored File: ' + file.filename);
+      });
+    });
 router.get('/helloworld',function(req,res){
   res.render('helloworld',{title:'Hello World!'});
 });
@@ -85,7 +104,7 @@ router.get('/userlist', function(req, res) {
 
 /* GET New User page. */
 router.get('/newuser', function(req, res) {
-  res.render('newuser', { title: 'Add New User' });
+  res.render('user', { title: 'Add New User' });
 });
 
 /* POST to Add User Service */
