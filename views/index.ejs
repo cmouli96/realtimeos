@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title><%= title %></title>
@@ -7,5 +7,32 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<!-- <html>
+  <head>
+    <title>Add User</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form id="formAddUser" name="adduser" method="post" action="/adduser">
+      <input name="foo" type="file" name="myfile" required/>
+      <button id="btnSubmit" type="submit">Submit</button>
+    </form>
+  </body>
+</html> -->
+
+<html>
+  <body>
+    <form ref='uploadForm' 
+      id='uploadForm' 
+      action='/upload' 
+      method='get' 
+      encType="multipart/form-data">
+        <input type="file" name="sampleFile" />
+        <input type='submit' value='Upload!' />
+    </form>     
   </body>
 </html>
